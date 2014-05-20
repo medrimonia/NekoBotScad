@@ -1,7 +1,7 @@
 include <../models/motor.scad>
-use <../models/screw.scad>
+use <fixation.scad>
 
-minLongSideULength = 30;
+minLongSideULength = 35;
 
 depth = 2.2;
 
@@ -11,7 +11,7 @@ module longSideUStruct(length){
         difference(){
             cube([MotorDepth, MotorWidth + 2 * depth, length + margin]);
             translate([0,depth,depth]){
-                cube([MotorDepth, MotorWidth, length + margin - depth]);
+                cube([MotorDepth, MotorWidth, length + margin - 2 * depth]);
             }
         }
     }
@@ -32,16 +32,13 @@ module longSideUFixHoles(){
     fixMargin = OlloSpacing;
     dx = MotorWidth / 2 - fixMargin;
     dy = MotorDepth / 2 - fixMargin;
-    translate([ dx, dy,0]) screwHole(depth);
-    translate([ dx,-dy,0]) screwHole(depth);
-    translate([-dx, dy,0]) screwHole(depth);
-    translate([-dx,-dy,0]) screwHole(depth);
+    rectangularFixation(dx, dy, "bolt", 2 * depth, depth);
 }
 
 module longSideU(length = minLongSideULength){
     difference(){
         longSideUStruct(length);
         longSideUServoFixHoles(length);
-        #longSideUFixHoles();
+        longSideUFixHoles();
     }
 }

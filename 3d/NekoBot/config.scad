@@ -18,3 +18,4 @@ backLengthScaled = boneScale * backLengthReal;
 backWidthScaled  = boneScale * backWidthReal;
 
 
+backThickness = 10;

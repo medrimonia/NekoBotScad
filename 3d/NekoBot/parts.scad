@@ -111,3 +111,13 @@ module rearLeg(a1, a2, a3, a4){
             [femurScaled, tibiaScaled, metatarseScaled], 0);
     }
 }
+
+
+module back(){
+    difference(){
+        translate([0,0,backThickness/2]){
+            cube([backWidthScaled + MotorWidth,
+                    backLengthScaled + MotorDepth + 2 * depth, backThickness], true);
+        }
+    }
+}
