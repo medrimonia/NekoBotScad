@@ -41,5 +41,3 @@ module motor(width=2.2) {
         }
 	  }
 }
-
-motor();
