@@ -24,6 +24,9 @@ boneTotalMargin = boneSideFixMargin + boneArmFixMargin;
 boneArmFixWidth  = 2 * (OlloSpacing + boneArmFixMargin);
 boneSideFixWidth = 2 * (OlloSpacing + boneSideFixMargin);
 
+boneArmFixHeight = motorHeight;
+boneSideFixHeight = motorHeight;
+
 //from the center of the rotation axis
 module boneArmFixStructure1Side(){
     translate([motorArmToArm / 2, 0, 0]){
@@ -31,7 +34,7 @@ module boneArmFixStructure1Side(){
             cylinder(depth,boneArmFixWidth / 2, boneArmFixWidth / 2);
         }
         translate([0, -boneArmFixWidth / 2, 0]){
-            cube([depth, boneArmFixWidth, motorHeight]);
+            cube([depth, boneArmFixWidth, boneArmFixHeight]);
         }
     }
 }
@@ -45,7 +48,7 @@ module boneArmFixStructure(){
 
 module boneSideFixStructure1Side(){
     translate([motorWidth/2,-boneSideFixWidth / 2,0]){
-        cube([depth, boneSideFixWidth, motorHeight]);
+        cube([depth, boneSideFixWidth, boneSideFixHeight]);
         mirror([0,0,1])cube([depth, boneSideFixWidth, boneSideFixMargin]);
     }
 }
@@ -57,11 +60,36 @@ module boneSideFixStructure(){
     }
 }
 
+module boneArmFix2Side(boneLength){
+    dz = boneLength - boneSideFixHeight - boneArmFixHeight;
+    // translating to the middle of the intersection
+    translate([0, 0, boneArmFixHeight]){
+        polyhedron(
+            [
+                [ boneExtWidth/2,  boneArmFixWidth/2, 0],
+                [ boneIntWidth/2,  boneArmFixWidth/2, 0],
+                [ boneIntWidth/2, -boneArmFixWidth/2, 0],
+                [ boneExtWidth/2, -boneArmFixWidth/2, 0],
+                [ boneSideFixWidth/2, boneExtDepth/ 2,dz]
+            ],
+            [
+                [0,1,2],
+                [0,2,3],
+                [1,0,4],
+                [0,3,4],
+                [3,2,4],
+                [2,1,4],
+            ]);
+                
+    }
+}
+
 module boneMainStructure(boneLength){
     boneArmFixStructure();
     translate([0,0,boneLength]) rotate([180,0,90]){
         boneSideFixStructure();
     }
+    boneArmFix2Side(boneLength);
 }
 
 
