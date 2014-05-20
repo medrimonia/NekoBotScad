@@ -60,6 +60,8 @@ module boneSideFixStructure(){
     }
 }
 
+//TODO create a distorded box in utils
+
 module boneArmFix2SideX(dz){
     polyhedron(
         [
@@ -67,10 +69,38 @@ module boneArmFix2SideX(dz){
             [ boneIntWidth/2            ,  boneArmFixWidth/2, 0],
             [ boneIntWidth/2            , -boneArmFixWidth/2, 0],
             [ boneExtWidth/2            , -boneArmFixWidth/2, 0],
-            [ boneSideFixWidth/2        ,  boneExtDepth/ 2  ,dz],
-            [ boneSideFixWidth/2 - depth,  boneExtDepth/ 2  ,dz],
-            [ boneSideFixWidth/2 - depth, -boneExtDepth/ 2  ,dz],
-            [ boneSideFixWidth/2        , -boneExtDepth/ 2  ,dz],
+            [ boneSideFixWidth/2        ,  boneExtDepth/2   ,dz],
+            [ boneSideFixWidth/2 - depth,  boneExtDepth/2   ,dz],
+            [ boneSideFixWidth/2 - depth, -boneExtDepth/2   ,dz],
+            [ boneSideFixWidth/2        , -boneExtDepth/2   ,dz],
+        ],
+        [
+            [0,1,2],
+            [0,2,3],
+            [1,0,4],
+            [1,4,5],
+            [0,3,4],
+            [4,3,7],
+            [3,2,6],
+            [6,7,3],
+            [2,1,5],
+            [2,5,6],
+            [4,6,5],
+            [4,7,6]
+        ]);
+}
+
+module boneArmFix2SideY(dz){
+    polyhedron(
+        [
+            [ boneArmFixWidth/2      ,  boneExtWidth/2, 0],
+            [ boneArmFixWidth/2-depth,  boneExtWidth/2, 0],
+            [ boneArmFixWidth/2-depth, -boneExtWidth/2, 0],
+            [ boneArmFixWidth/2      , -boneExtWidth/2, 0],
+            [ boneExtDepth/2       ,  boneSideFixWidth/2  ,dz],
+            [ boneIntDepth/2       ,  boneSideFixWidth/2  ,dz],
+            [ boneIntDepth/2       , -boneSideFixWidth/2  ,dz],
+            [ boneExtDepth/2       , -boneSideFixWidth/2  ,dz],
         ],
         [
             [0,1,2],
@@ -94,6 +124,10 @@ module boneArmFix2Side(boneLength){
     translate([0, 0, boneArmFixHeight]){
         boneArmFix2SideX(dz);
         mirror() boneArmFix2SideX(dz);
+        rotate([0,0,90]){
+            boneArmFix2SideY(dz);
+            mirror() boneArmFix2SideY(dz);
+        }
     }
 }
 
