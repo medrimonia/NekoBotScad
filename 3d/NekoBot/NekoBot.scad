@@ -28,7 +28,7 @@ module rearLegs(){
 }
 
 module nekoBot(){
-	//back();
+	back();
 	translate([0,backLengthScaled/2,0]){
 		foreLegs();
 	}

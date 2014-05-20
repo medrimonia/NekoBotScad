@@ -112,6 +112,24 @@ module rearLeg(a1, a2, a3, a4){
     }
 }
 
+module back1SideHoles(){
+    fixMargin = OlloSpacing;
+    dx = MotorWidth / 2 - fixMargin;
+    dy = MotorDepth / 2 - fixMargin;
+    translate([backWidthScaled/2, 0, 0]){
+        translate([0, backLengthScaled/2, 0]){
+            rectangularFixation(dx, dy, "screw", backThickness, depth);
+        }
+        translate([0, -backLengthScaled/2, 0]){
+            rectangularFixation(dx, dy, "screw", backThickness, depth);
+        }
+    }
+}
+
+module backHoles(){
+    back1SideHoles();
+    mirror() back1SideHoles();
+}
 
 module back(){
     difference(){
@@ -119,5 +137,6 @@ module back(){
             cube([backWidthScaled + MotorWidth,
                     backLengthScaled + MotorDepth + 2 * depth, backThickness], true);
         }
+        backHoles();
     }
 }
