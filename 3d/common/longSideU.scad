@@ -1,4 +1,5 @@
 include <../models/motor.scad>
+use <../models/screw.scad>
 
 minLongSideULength = 30;
 
@@ -27,9 +28,20 @@ module longSideUServoFixHoles(length){
     }
 }
 
+module longSideUFixHoles(){
+    fixMargin = OlloSpacing;
+    dx = MotorWidth / 2 - fixMargin;
+    dy = MotorDepth / 2 - fixMargin;
+    translate([ dx, dy,0]) screwHole(depth);
+    translate([ dx,-dy,0]) screwHole(depth);
+    translate([-dx, dy,0]) screwHole(depth);
+    translate([-dx,-dy,0]) screwHole(depth);
+}
+
 module longSideU(length = minLongSideULength){
     difference(){
         longSideUStruct(length);
         longSideUServoFixHoles(length);
+        #longSideUFixHoles();
     }
 }

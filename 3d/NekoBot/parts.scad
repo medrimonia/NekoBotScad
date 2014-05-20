@@ -105,6 +105,9 @@ module foreLeg(a1, a2, a3){
 }
 
 module rearLeg(a1, a2, a3, a4){
-    leg([a1, a2, a3, a4],
-        [femurScaled, tibiaScaled, metatarseScaled], 0);
+    longSideU();
+    translate([0,0,minLongSideULength]){
+        leg([a1, a2, a3, a4],
+            [femurScaled, tibiaScaled, metatarseScaled], 0);
+    }
 }
