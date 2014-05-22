@@ -1,6 +1,7 @@
 include <bones.scad>
 include <config.scad>
 include <../common/longSideU.scad>
+use <../util/polygons.scad>
 
 footMargin = 20;
 footLength = 30;
@@ -131,12 +132,41 @@ module backHoles(){
     mirror() back1SideHoles();
 }
 
-module back(){
+module backSideRemoval(outX, outY, margin){
+    triangle([[margin,0],[outX,outY],[outX,-outY]], backThickness);
+}
+
+module backFrontRemoval(outX, outY, margin){
+    triangle([[0,margin],[outX,outY],[-outX,outY]], backThickness);
+}
+
+module backStructure(){
+    dx = backWidthScaled - MotorWidth;
+    dy = backLengthScaled - (MotorDepth + depth);
+    alpha = atan2(dy,dx);
+    margin = 10;
+    marginX = margin * cos(alpha);
+    marginY = margin * sin(alpha);
     difference(){
         translate([0,0,backThickness/2]){
             cube([backWidthScaled + MotorWidth,
-                    backLengthScaled + MotorDepth + 2 * depth, backThickness], true);
+                    backLengthScaled + MotorDepth + 2 * depth,
+                    backThickness]
+                , true);
         }
+        backSideRemoval(dx / 2, dy / 2 - marginY, marginX);
+        mirror() backSideRemoval(dx / 2, dy / 2 - marginY, marginX);
+        backFrontRemoval(dx / 2 - marginX, dy / 2, marginY);
+        mirror([0,1,0]) backFrontRemoval(dx / 2 - marginX, dy / 2, marginY);
+    }
+}
+
+module back(){
+    //*
+    difference(){
+        backStructure();
         backHoles();
     }
+    //*/
+    //backSideRemoval();
 }
