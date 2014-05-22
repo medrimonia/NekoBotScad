@@ -11,7 +11,7 @@ OlloSpacing = 6;
 module olloHole(depth=2.2)
 {
     translate([0,0,-0.1])
-      cylinder(depth+0.2, OlloHoles/2, OlloHoles/2);
+      cylinder(depth+0.2, OlloHoles/2, OlloHoles/2, $fn=20);
 }
 
 // Do 3 ollo holes

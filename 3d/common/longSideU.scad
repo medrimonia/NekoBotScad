@@ -10,7 +10,7 @@ module longSideUStruct(length){
     translate([-MotorDepth / 2, -(MotorWidth/2 + depth), 0]){
         difference(){
             cube([MotorDepth, MotorWidth + 2 * depth, length + margin]);
-            translate([0,depth,depth]){
+            translate([0,depth,2*depth]){
                 cube([MotorDepth, MotorWidth, length + margin - 2 * depth]);
             }
         }
@@ -32,7 +32,7 @@ module longSideUFixHoles(){
     fixMargin = OlloSpacing;
     dx = MotorWidth / 2 - fixMargin;
     dy = MotorDepth / 2 - fixMargin;
-    rectangularFixation(dx, dy, "bolt", 2 * depth, depth);
+    rectangularFixation(dx, dy, "bolt", 1.001 *2 * depth, depth);
 }
 
 module longSideU(length = minLongSideULength){
